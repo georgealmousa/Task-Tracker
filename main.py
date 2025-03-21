@@ -26,15 +26,34 @@ def mark_done(task_id):
     tasks[f"task{task_id}"].update({"Status":"done"})
     # end of function
 def list_tasks():
-    data = json.dumps(tasks,indent=4)
-    print(data)
+    print(json.dumps(tasks,indent=3))
     #end of function
 
+def list_done_tasks():
+    for key, val in tasks.items():
+        if val["Status"] == "done":
+            print(key,':',val)
+    #end of function
+
+def list_todo():
+    for key, val in tasks.items():
+        if val["Status"] == "todo":
+            print(key,':',val)
+    #end of function   
+def list_in_progress():
+    for key, val in tasks.items():
+        if val["Status"] == "in-progress":
+            print(key,':',val)
+    #end of function   
+
 add_task(1, "Go to the mall","in-progress")
-add_task(2,"Eat at the mall","in-progress")
+add_task(2,"Eat at the mall","done")
+add_task(3,"Go Home","todo")
 ## delete_task(1)
 ##update_task(1,"Going to the gym")
-list_tasks()
-
+# list_tasks()
+list_done_tasks()
+list_in_progress()
+list_todo()
 with open("tasks.json", "w") as file:
     json.dump(tasks, file, indent=4)
