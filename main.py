@@ -1,5 +1,6 @@
 import json
 import datetime
+import pandas as pd
 
 e =  datetime.datetime.now()
 tasks = {}
@@ -27,9 +28,13 @@ def delete_task(task_id):
 
 def update_task(task_id, description):
     date = datetime.datetime.now()
-    tasks[f"task{task_id}"].update({"Description": description})
-    tasks[f"task{task_id}"].update({"updatedAt": f"{date}"})
-    save_to_file() 
+    with open('tasks.json', 'r') as file:
+        data = json.load(file)
+    data[f"task{task_id}"].update({"Description": description})
+    data[f"task{task_id}"].update({"updatedAt": f"{date}"})
+    with open("tasks.json", "w") as file:
+        json.dump(data, file, indent=4)
+
     # end of function
 
 def mark_in_progress(task_id):
@@ -51,7 +56,7 @@ def mark_todo(task_id):
     save_to_file()
     # end of function
 def list_tasks():
-    print(json.dumps(tasks, indent=3))
+    read_json()
     # end of function
 
 def list_done_tasks():
@@ -75,6 +80,6 @@ def list_in_progress():
 # add_task(1, "Go to the mall", "in-progress")
 # add_task(2, "Eat at the mall", "done")
 # add_task(3,"Go Home","todo")
-print(tasks)
-#update_task(2, "Going to the gym")
+# list_tasks()
+# update_task(2, "Going to the gym")
 #update_task(1, "Eating healthy food")
